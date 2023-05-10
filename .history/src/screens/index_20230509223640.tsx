@@ -26,6 +26,12 @@ export function SignIn() {
     googleSignIng().then((response) => {
       if (response?.type !== "success") {
         setIsAuthenticating(false);
+      } else {
+        Alert.alert(
+          "Entrar",
+          "Não foi possível conectar com a conta do Google!"
+        );
+        setIsAuthenticating(false);
       }
     });
   }
@@ -38,12 +44,6 @@ export function SignIn() {
         )
           .then((response) => response.json())
           .then(console.log);
-      } else {
-        Alert.alert(
-          "Entrar",
-          "Não foi possível conectar com a conta do Google!"
-        );
-        setIsAuthenticating(false);
       }
     }
   }, [response]);

@@ -26,6 +26,12 @@ export function SignIn() {
     googleSignIng().then((response) => {
       if (response?.type !== "success") {
         setIsAuthenticating(false);
+      } else {
+        Alert.alert(
+          "Entrar",
+          "Não foi possível conectar com a conta do Google!"
+        );
+        setIsAuthenticating(false);
       }
     });
   }
@@ -35,15 +41,7 @@ export function SignIn() {
       if (response.authentication?.idToken) {
         fetch(
           `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${response.authentication?.idToken}`
-        )
-          .then((response) => response.json())
-          .then(console.log);
-      } else {
-        Alert.alert(
-          "Entrar",
-          "Não foi possível conectar com a conta do Google!"
         );
-        setIsAuthenticating(false);
       }
     }
   }, [response]);
