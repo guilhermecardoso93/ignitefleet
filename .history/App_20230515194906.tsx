@@ -2,7 +2,6 @@ import { ThemeProvider } from "styled-components/native";
 import { StatusBar } from "react-native";
 import { AppProvider, UserProvider } from "@realm/react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { RealmProvider } from "./src/libs/realm";
 
 import {
   useFonts,
@@ -17,7 +16,7 @@ import { REALM_APP_ID } from "@env";
 import { SignIn } from "./src/screens/SignIn";
 import { Loading } from "./src/components/Loading";
 import { Routes } from "./src/routes";
-
+import { RealmProvider } from "./src/libs/realm";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
