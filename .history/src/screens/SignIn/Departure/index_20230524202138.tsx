@@ -1,6 +1,4 @@
-import 'react-native-get-random-values'
 import React, { useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import {
   TextInput,
   ScrollView,
@@ -11,8 +9,6 @@ import {
 
 import { Container, Content } from "./styles";
 import { licensePlateValidate } from "../../../utils/licensePlateValidate";
-
-import { useUser } from "@realm/react";
 import { useRealm } from "../../../libs/realm";
 import { Historic } from "../../../libs/realm/schemas/Historic";
 
@@ -29,9 +25,7 @@ export function Departure() {
   const [licensePlate, setLicensePlate] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
 
-  const realm = useRealm();
-  const user = useUser();
-  const { goBack } = useNavigation();
+  const realm = useRealm()
 
   const descriptionRef = useRef<TextInput>(null);
   const licensePlateRef = useRef<TextInput>(null);
@@ -55,20 +49,11 @@ export function Departure() {
       }
       setIsRegistering(true);
 
+
       realm.write(() => {
-        realm.create(
-          "Historic",
-          Historic.generate({
-            user_id: user!.id,
-            license_plate: licensePlate.toUpperCase(),
-            description: description,
-          })
-        );
+        realm.create('Historic', Historic)
+      })
 
-        Alert.alert("Saída", "Saída do veículo registrada com sucesso!");
-        goBack();
-
-      });
     } catch (error) {
       console.log(error);
       Alert.alert("Error", "Não foi possível registrar a saída do veículo");

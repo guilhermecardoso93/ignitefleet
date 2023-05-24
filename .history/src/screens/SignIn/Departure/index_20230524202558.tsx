@@ -1,4 +1,3 @@
-import 'react-native-get-random-values'
 import React, { useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -66,8 +65,7 @@ export function Departure() {
         );
 
         Alert.alert("Saída", "Saída do veículo registrada com sucesso!");
-        goBack();
-
+        goBack()
       });
     } catch (error) {
       console.log(error);

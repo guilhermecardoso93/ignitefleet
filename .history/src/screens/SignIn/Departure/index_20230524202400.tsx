@@ -1,6 +1,4 @@
-import 'react-native-get-random-values'
 import React, { useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import {
   TextInput,
   ScrollView,
@@ -21,6 +19,7 @@ import { LicensePlateInput } from "../../../components/LicensePlateInput";
 import { TextAreaInput } from "../../../components/TextAreaInput";
 import { Button } from "../../../components/Button";
 
+
 const keyboardAvoidingViewBehavior =
   Platform.OS == "android" ? "height" : "position";
 
@@ -31,7 +30,6 @@ export function Departure() {
 
   const realm = useRealm();
   const user = useUser();
-  const { goBack } = useNavigation();
 
   const descriptionRef = useRef<TextInput>(null);
   const licensePlateRef = useRef<TextInput>(null);
@@ -64,10 +62,6 @@ export function Departure() {
             description: description,
           })
         );
-
-        Alert.alert("Saída", "Saída do veículo registrada com sucesso!");
-        goBack();
-
       });
     } catch (error) {
       console.log(error);

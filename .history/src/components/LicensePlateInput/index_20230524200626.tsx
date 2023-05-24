@@ -17,7 +17,6 @@ const LicensePlateInput = forwardRef<TextInput, Props>(({ label, ...rest }, ref)
       </Label>
 
       <Input
-        ref={ref}
         maxLength={7}
         autoCapitalize='characters'
         placeholderTextColor={COLORS.GRAY_400}
