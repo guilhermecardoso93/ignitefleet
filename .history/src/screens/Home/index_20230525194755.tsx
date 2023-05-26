@@ -11,28 +11,22 @@ import { HomeHeader } from "../../components/HomeHeader";
 import { Container, Content } from "./styles";
 
 export function Home() {
-  const [vehicleInUse, setVehicleInUse] = useState<Historic | null>(null);
+  const [ vehicleInUse, setVehicleInUse] = useState<Historic | null>(null)
   const { navigate } = useNavigation();
 
   const historic = useQuery(Historic);
 
-  function handleRegisterMovement() {
-    if (vehicleInUse?._id) {
-      return navigate("arrival", { id: vehicleInUse?._id.toString()});
-    } else {
-      navigate("departure");
-    }
+  function handleRegisterMoviment() {
+    navigate("departure");
   }
 
   function fetchVehicle() {
     try {
       const vehicle = historic.filtered("status = 'departure'")[0];
       setVehicleInUse(vehicle);
+
     } catch (error) {
-      Alert.alert(
-        "Veículo em uso",
-        "Não foi possível carregar o veículo em uso."
-      );
+      Alert.alert('Veículo em uso', 'Não foi possível carregar o veículo em uso.')
     }
   }
 
@@ -44,10 +38,7 @@ export function Home() {
     <Container>
       <HomeHeader />
       <Content>
-        <CarStatus
-          onPress={handleRegisterMovement}
-          licensePlate={vehicleInUse?.license_plate}
-        />
+        <CarStatus onPress={handleRegisterMoviment} />
       </Content>
     </Container>
   );
