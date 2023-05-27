@@ -40,7 +40,7 @@ export function Arrival() {
     goBack();
   }
 
-  function handleRemoveVehicleUsage() {
+  function handleDelete() {
     Alert.alert("Cancelar", "Cancelar a utilização do veículo?", [
       { text: "Não", style: "cancel" },
       { text: "Sim", onPress: () => removeVehicleUsage() },
@@ -73,38 +73,19 @@ export function Arrival() {
   return (
     <Container>
       <Header title={title} />
+
       <Content>
-        <Label>
-          Placa do veículo
-        </Label>
-
-        <LicensePlate>
-          {historic?.license_plate}
-        </LicensePlate>
-
-        <Label>
-          Finalidade
-        </Label>
-
-        <Description>
-          {historic?.description}
-        </Description>
+        <Label>Placa do Veículo</Label>
+        <LicensePlate>{historic?.license_plate}</LicensePlate>
+        <Label>Finalidade</Label>
+        <Description>{historic?.description}</Description>
       </Content>
-
-      {
-        historic?.status === 'departure' &&
+      {historic?.status === "departure" && (
         <Footer>
-          <ButtonIcon 
-            icon={X} 
-            onPress={handleRemoveVehicleUsage}
-          />
-
-          <Button 
-            title='Registrar chegada' 
-            onPress={handleArrivalRegister}
-          />
+          <ButtonIcon icon={X} onPress={handleDelete} />
+          <Button title="Registrar Chegada" onPress={handleArrivalRegister} />
         </Footer>
-        }
+      )}
     </Container>
   );
 }

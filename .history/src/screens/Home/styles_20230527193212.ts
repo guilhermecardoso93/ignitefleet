@@ -18,11 +18,3 @@ export const Label = styled.Text`
   margin-top: 32px;
   text-align: center;
 `;
-
-export const Title = styled.Text`
-  color: ${({ theme }) => theme.COLORS.WHITE};
-  font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
-  font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
-
-  margin-bottom: 12;
-`;

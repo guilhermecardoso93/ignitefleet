@@ -1,7 +1,13 @@
 import "react-native-get-random-values";
 import React, { useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { TextInput, ScrollView, Alert } from "react-native";
+import {
+  TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from "react-native";
 
 import { Container, Content } from "./styles";
 import { licensePlateValidate } from "../../../utils/licensePlateValidate";
@@ -16,10 +22,13 @@ import { TextAreaInput } from "../../../components/TextAreaInput";
 import { Button } from "../../../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+const keyboardAvoidingViewBehavior =
+  Platform.OS == "android" ? "height" : "position";
+
 export function Departure() {
   const [description, setDescription] = useState("");
   const [licensePlate, setLicensePlate] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [isRegistering, setIsResgistering] = useState(false);
 
   const realm = useRealm();
   const user = useUser();
@@ -46,7 +55,7 @@ export function Departure() {
         );
       }
 
-      setIsRegistering(false);
+      setIsResgistering(false);
 
       realm.write(() => {
         realm.create(
@@ -65,7 +74,7 @@ export function Departure() {
     } catch (error) {
       console.log(error);
       Alert.alert("Erro", "Não possível registrar a saída do veículo.");
-      setIsRegistering(false);
+      setIsResgistering(false);
     }
   }
 
@@ -85,6 +94,16 @@ export function Departure() {
               }}
               returnKeyType="next"
               onChangeText={setLicensePlate}
+            />
+
+            <TextAreaInput
+              ref={descriptionRef}
+              label="Finalizade"
+              placeholder="Vou utilizar o veículo para..."
+              onSubmitEditing={handleDepartureRegister}
+              returnKeyType="send"
+              blurOnSubmit
+              onChangeText={setDescription}
             />
 
             <TextAreaInput

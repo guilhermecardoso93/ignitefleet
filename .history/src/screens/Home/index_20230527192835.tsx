@@ -9,7 +9,7 @@ import { Historic } from "../../libs/realm/schemas/Historic";
 import { CarStatus } from "../../components/CarStatus";
 import { HomeHeader } from "../../components/HomeHeader";
 
-import { Container, Content, Label, Title } from "./styles";
+import { Container, Content } from "./styles";
 import { HistoricCard, HistoricCardProps } from "../../components/HistoricCard";
 
 export function Home() {
@@ -17,15 +17,14 @@ export function Home() {
   const [vehicleHistoric, setVehicleHistoric] = useState<HistoricCardProps[]>(
     []
   );
-
   const { navigate } = useNavigation();
-
-  const historic = useQuery(Historic);
   const realm = useRealm();
 
-  function handleRegisterMoviment() {
+  const historic = useQuery(Historic);
+
+  function handleRegisterMovement() {
     if (vehicleInUse?._id) {
-      navigate("arrival", { id: vehicleInUse._id.toString() });
+      return navigate("arrival", { id: vehicleInUse?._id.toString() });
     } else {
       navigate("departure");
     }
@@ -33,41 +32,37 @@ export function Home() {
 
   function fetchVehicleInUse() {
     try {
-      const vehicle = historic.filtered("status='departure'")[0];
+      const vehicle = historic.filtered("status = 'departure'")[0];
       setVehicleInUse(vehicle);
     } catch (error) {
       Alert.alert(
         "Veículo em uso",
         "Não foi possível carregar o veículo em uso."
       );
-      console.log(error);
     }
   }
 
   function fetchHistoric() {
     try {
       const response = historic.filtered(
-        "status='arrival' SORT(created_at DESC)"
+        'status = "arrival" SORT(created_at DESC)'
       );
       const formattedHistoric = response.map((item) => {
         return {
-          id: item._id.toString(),
+          id: item._id!.toString(),
           licensePlate: item.license_plate,
-          isSync: false,
           created: dayjs(item.created_at).format(
-            "[Saída em] DD/MM/YYYY [às] HH:mm"
+            "[Saída em] DD/YY/MMMM [ás] HH:mm"
           ),
+          isSync: false,
         };
       });
+
       setVehicleHistoric(formattedHistoric);
     } catch (error) {
       console.log(error);
-      Alert.alert("Histórico", "Não foi possível carregar o histórico.");
+      Alert.alert("Histórico", "Não foi possível carregar o histórico");
     }
-  }
-
-  function handleHistoricDetails(id: string) {
-    navigate("arrival", { id });
   }
 
   useEffect(() => {
@@ -75,12 +70,11 @@ export function Home() {
   }, []);
 
   useEffect(() => {
-    realm.addListener("change", () => fetchVehicleInUse());
-    return () => {
-      if (realm && !realm.isClosed) {
-        realm.removeListener("change", fetchVehicleInUse);
-      }
-    };
+    realm.addListener("change", () => {
+      fetchVehicleInUse();
+    });
+
+    return () => realm.removeListener("change", fetchVehicleInUse);
   }, []);
 
   useEffect(() => {
@@ -90,14 +84,11 @@ export function Home() {
   return (
     <Container>
       <HomeHeader />
-
       <Content>
         <CarStatus
+          onPress={handleRegisterMovement}
           licensePlate={vehicleInUse?.license_plate}
-          onPress={handleRegisterMoviment}
         />
-
-        <Title>Histórico</Title>
 
         <FlatList
           data={vehicleHistoric}
@@ -105,12 +96,8 @@ export function Home() {
           renderItem={({ item }) => (
             <HistoricCard
               data={item}
-              onPress={() => handleHistoricDetails(item.id)}
             />
           )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          ListEmptyComponent={<Label>Nenhum registro de utilização.</Label>}
         />
       </Content>
     </Container>

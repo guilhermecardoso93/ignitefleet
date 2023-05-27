@@ -30,7 +30,7 @@ export function Arrival() {
   const historic = useObject(Historic, new BSON.UUID(id));
   const realm = useRealm();
 
-  const title = historic?.status === "departure" ? "Chegada" : "Detalhes";
+  const title = historic?.status === 'departure' ? "Chegada" : "Detalhes"
 
   function removeVehicleUsage() {
     realm.write(() => {
@@ -40,7 +40,7 @@ export function Arrival() {
     goBack();
   }
 
-  function handleRemoveVehicleUsage() {
+  function handleDelete() {
     Alert.alert("Cancelar", "Cancelar a utilização do veículo?", [
       { text: "Não", style: "cancel" },
       { text: "Sim", onPress: () => removeVehicleUsage() },
@@ -72,39 +72,22 @@ export function Arrival() {
 
   return (
     <Container>
-      <Header title={title} />
+      <Header title={title}/>
+
       <Content>
-        <Label>
-          Placa do veículo
-        </Label>
+        <Label>Placa do Veículo</Label>
+        <LicensePlate>{historic?.license_plate}</LicensePlate>
+        <Label>Finalidade</Label>
+        <Description>{historic?.description}</Description>
 
-        <LicensePlate>
-          {historic?.license_plate}
-        </LicensePlate>
-
-        <Label>
-          Finalidade
-        </Label>
-
-        <Description>
-          {historic?.description}
-        </Description>
+        
       </Content>
-
-      {
-        historic?.status === 'departure' &&
-        <Footer>
-          <ButtonIcon 
-            icon={X} 
-            onPress={handleRemoveVehicleUsage}
-          />
-
-          <Button 
-            title='Registrar chegada' 
-            onPress={handleArrivalRegister}
-          />
-        </Footer>
-        }
+      {historic?.status === "departure" && (
+          <Footer>
+            <ButtonIcon icon={X} onPress={handleDelete} />
+            <Button title="Registrar Chegada" onPress={handleArrivalRegister} />
+          </Footer>
+        )}
     </Container>
   );
 }

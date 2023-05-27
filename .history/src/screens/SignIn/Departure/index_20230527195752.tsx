@@ -71,40 +71,40 @@ export function Departure() {
 
   return (
     <Container>
-      <Header title="Saída" />
+    <Header title='Saída' />
 
-      <KeyboardAwareScrollView extraHeight={100}>
-        <ScrollView>
-          <Content>
-            <LicensePlateInput
-              ref={licensePlateRef}
-              label="Placa do veículo"
-              placeholder="BRA1234"
-              onSubmitEditing={() => {
-                descriptionRef.current?.focus();
-              }}
-              returnKeyType="next"
-              onChangeText={setLicensePlate}
-            />
+    <KeyboardAwareScrollView extraHeight={100}>
+      <ScrollView>
+        <Content>
+          <LicensePlateInput
+            ref={licensePlateRef}
+            label='Placa do veículo'
+            placeholder="BRA1234"
+            onSubmitEditing={() => {
+              descriptionRef.current?.focus()
+            }}
+            returnKeyType='next'
+            onChangeText={setLicensePlate}
+          />
 
-            <TextAreaInput
-              ref={descriptionRef}
-              label="Finalizade"
-              placeholder="Vou utilizar o veículo para..."
-              onSubmitEditing={handleDepartureRegister}
-              returnKeyType="send"
-              blurOnSubmit
-              onChangeText={setDescription}
-            />
+          <TextAreaInput
+            ref={descriptionRef}
+            label='Finalizade'
+            placeholder='Vou utilizar o veículo para...'
+            onSubmitEditing={handleDepartureRegister}
+            returnKeyType='send'
+            blurOnSubmit
+            onChangeText={setDescription}
+          />
 
-            <Button
-              title="Registar Saída"
-              onPress={handleDepartureRegister}
-              isLoading={isRegistering}
-            />
-          </Content>
-        </ScrollView>
-      </KeyboardAwareScrollView>
-    </Container>
+          <Button 
+            title='Registar Saída'
+            onPress={handleDepartureRegister}
+            isLoading={isRegistering}
+          />
+        </Content>
+      </ScrollView>
+    </KeyboardAwareScrollView>
+  </Container>
   );
 }
